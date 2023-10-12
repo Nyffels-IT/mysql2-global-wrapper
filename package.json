@@ -15,9 +15,8 @@
   "keywords": [
     "mysql",
     "mysql2",
-    "helper",
     "wrapper",
-    "annotations"
+    "global"
   ],
   "author": "Nyffels BV",
   "license": "MIT",
