@@ -49,7 +49,7 @@ export async function doMutation(sqlQuery: string, options: QueryOptions | null 
   return res as mysql.OkPacket;
 }
 
-async function doQuery(sqlQuery: string, options: QueryOptions | null = null) {
+export async function doQuery(sqlQuery: string, options: QueryOptions | null = null) {
   if (_.isNil(options)) {
     options = new QueryOptions();
   }
