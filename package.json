@@ -1,6 +1,6 @@
 {
   "name": "@nyffels/mysql2-global-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A MySql2 wrapper to help you with mysql2 npm package with several functions to improved your mysql2 experience on global scale.",
   "private": false,
   "main": "dist/index.js",

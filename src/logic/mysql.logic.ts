@@ -49,7 +49,7 @@ export async function doMutation(sqlQuery: string, options: QueryOptions | null 
   return res as mysql.OkPacket;
 }
 
-export async function doQuery(sqlQuery: string, options: QueryOptions | null = null) {
+async function doQuery(sqlQuery: string, options: QueryOptions | null = null) {
   if (_.isNil(options)) {
     options = new QueryOptions();
   }
@@ -62,8 +62,12 @@ export async function doQuery(sqlQuery: string, options: QueryOptions | null = n
     }
   }
 
-  const [rows, fields] = await getConnection().query(sqlQuery);
-  return rows as any[];
+  try {
+    const [rows, fields] = await getConnection().query(sqlQuery);
+    return rows as any[];
+  } catch (err: any) {
+    throw Error(err.code + ': ' + err.sqlMessage + ' SQL: ' + err.sql);
+  }
 }
 
 export class QueryOptions {
