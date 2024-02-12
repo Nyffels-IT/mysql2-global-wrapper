@@ -37,6 +37,14 @@ export async function doMutation(sqlQuery: string, options: QueryOptions | null 
     options = new QueryOptions();
   }
 
+  if (!_.isNil((global as any).connection)) {
+    try {
+      await getConnection().ping();
+    } catch {
+      await endConnection();
+    }
+  }
+
   if (_.isNil((global as any).connection)) {
     if (options.createConnectionWhenNoGlobalConnectionFound) {
       await await setConnection();
@@ -49,9 +57,17 @@ export async function doMutation(sqlQuery: string, options: QueryOptions | null 
   return res as mysql.OkPacket;
 }
 
-export async function doQuery(sqlQuery: string, options: QueryOptions | null = null) {
+export async function doQuery<T = any>(sqlQuery: string, options: QueryOptions | null = null) {
   if (_.isNil(options)) {
     options = new QueryOptions();
+  }
+
+  if (!_.isNil((global as any).connection)) {
+    try {
+      await getConnection().ping();
+    } catch {
+      await endConnection();
+    }
   }
 
   if (_.isNil((global as any).connection)) {
@@ -64,7 +80,7 @@ export async function doQuery(sqlQuery: string, options: QueryOptions | null = n
 
   try {
     const [rows, fields] = await getConnection().query(sqlQuery);
-    return rows as any[];
+    return rows as T[];
   } catch (err: any) {
     throw Error(err.code + ': ' + err.sqlMessage + ' SQL: ' + err.sql);
   }
